@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../psychoeducation/psychoeducation_exports.dart';
 
-class HelpItem {
+class PsychoeducationNavItem {
   final IconData icon;
   final String title;
   final Widget screen;
 
-  const HelpItem({
+  const PsychoeducationNavItem({
     required this.icon,
     required this.title,
     required this.screen,
@@ -15,37 +15,37 @@ class HelpItem {
 }
 
 const psychoeducationCards = [
-  HelpItem(
+  PsychoeducationNavItem(
     icon: Icons.people_outline,
     title: "Социјална\nанксиозност",
     screen: SocialAnxietyScreen(),
   ),
 
-  HelpItem(
+  PsychoeducationNavItem(
     icon: Icons.psychology_outlined,
     title: "Интрузивни\nмисли",
     screen: IntrusiveThoughtsScreen(),
   ),
 
-  HelpItem(
+  PsychoeducationNavItem(
     icon: Icons.schedule_outlined,
     title: "Антиципаторна\nанксиозност",
     screen: AnticipatoryAnxietyScreen(),
   ),
 
-  HelpItem(
+  PsychoeducationNavItem(
     icon: Icons.loop,
     title: "Overthinking",
     screen: OverthinkingScreen(),
   ),
 
-  HelpItem(
+  PsychoeducationNavItem(
     icon: Icons.visibility_outlined,
     title: "Страв од\nосуда",
     screen: FearOfJudgmentScreen(),
   ),
 
-  HelpItem(
+  PsychoeducationNavItem(
     icon: Icons.help_outline,
     title: "Потреба за\nуверување",
     screen: ReassuranceScreen(),

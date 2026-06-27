@@ -1,15 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+import '../home_exports.dart';
 import '../../../theme/theme_exports.dart';
-
-import '../data/psychoeducation_cards.dart';
-import '../data/quotes.dart';
-
-import '../widgets/greeting_card.dart';
-import '../widgets/help_card.dart';
-import '../widgets/quote_card.dart';
-import '../widgets/safe_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
