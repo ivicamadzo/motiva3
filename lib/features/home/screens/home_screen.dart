@@ -38,6 +38,31 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: AppSpacing.lg),
 
               Text(
+                "Алатки",
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+
+              const SizedBox(height: AppSpacing.md),
+
+              SizedBox(
+                height: 130,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: toolCards.map((item) {
+                    return HelpCard(
+                      icon: item.icon,
+                      title: item.title,
+                      screen: item.screen,
+                    );
+                  }).toList(),
+                ),
+              ),
+
+              const SizedBox(height: AppSpacing.lg),
+
+              Text(
                 "Што ми се случува во моментов?",
                 style: Theme.of(
                   context,
