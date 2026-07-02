@@ -10,8 +10,11 @@ class ProgressBar extends StatelessWidget {
     return Column(
       children: [
         LinearProgressIndicator(value: progress),
-        const SizedBox(height: 8),
-        Text("${(progress * 100).toInt()}%"),
+        const SizedBox(height: 6),
+        Text(
+          "${(progress * 100).toInt()}%",
+          style: const TextStyle(fontSize: 12),
+        ),
       ],
     );
   }

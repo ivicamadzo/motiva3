@@ -1,8 +1,4 @@
-import 'audio_item.dart';
+import 'models/audio_item.dart';
 
-const welcomeTrack = AudioItem(
-  id: 'welcome',
-  title: 'Welcome',
-  asset: 'assets/audio/welcome.mp3',
-  artwork: 'assets/images/welcome.jpg',
-);
+// optional type alias (clean + useful)
+typedef Playlist = List<AudioItem>;

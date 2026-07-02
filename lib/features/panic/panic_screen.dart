@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import '../audio/services/audio_service.dart';
-import '../audio/data/playlist.dart';
+
+import '../audio/core/audio_singleton.dart';
+import '../audio/data/models/audio_category.dart';
 import '../audio/widgets/artwork.dart';
+import '../audio/data/models/audio_state.dart';
 
 class PanicScreen extends StatefulWidget {
   const PanicScreen({super.key});
@@ -11,26 +13,17 @@ class PanicScreen extends StatefulWidget {
 }
 
 class _PanicScreenState extends State<PanicScreen> {
-  final AudioService audio = AudioService();
-
-  static bool _played = false;
-
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (!_played) {
-        _played = true;
-        await audio.play(welcomeTrack);
-      }
+    // Defer autoplay slightly so the UI can finish the first frame
+    // and avoid jank caused by asset loading.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 250), () {
+        AudioSingleton.controller.playCategory(AudioCategory.panic);
+      });
     });
-  }
-
-  @override
-  void dispose() {
-    audio.dispose();
-    super.dispose();
   }
 
   @override
@@ -38,30 +31,60 @@ class _PanicScreenState extends State<PanicScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text("Panic Mode")),
 
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // 🎨 Thumbnail
-            Artwork(item: welcomeTrack),
+      body: StreamBuilder<AudioState>(
+        stream: AudioSingleton.controller.stateStream,
+        builder: (context, snapshot) {
+          final state = snapshot.data;
 
-            const SizedBox(height: 20),
+          if (state == null || state.currentTrack == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            // 🎵 Title
-            Text(
-              welcomeTrack.title,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
+          final track = state.currentTrack!;
 
-            const SizedBox(height: 30),
+          // Ensure artwork is precached so the thumbnail appears immediately
+          // and avoids a frame hitch when Image.asset decodes it.
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            precacheImage(AssetImage(track.artwork), context);
+          });
 
-            // 🌿 Calm UI placeholder
-            const Text(
-              "Breathing / Calm UI here",
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Artwork(artworkPath: track.artwork),
+
+              const SizedBox(height: 20),
+
+              Text(
+                track.title,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.pause),
+                    onPressed: AudioSingleton.controller.pause,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.play_arrow),
+                    onPressed: AudioSingleton.controller.resume,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.stop),
+                    onPressed: AudioSingleton.controller.stop,
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

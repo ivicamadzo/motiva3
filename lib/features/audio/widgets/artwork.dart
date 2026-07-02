@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import '../data/audio_item.dart';
 
 class Artwork extends StatelessWidget {
-  final AudioItem item;
+  final String artworkPath;
 
-  const Artwork({super.key, required this.item});
+  const Artwork({super.key, required this.artworkPath});
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Image.asset(
-        item.artwork,
+        artworkPath,
         width: 180,
         height: 180,
         fit: BoxFit.cover,

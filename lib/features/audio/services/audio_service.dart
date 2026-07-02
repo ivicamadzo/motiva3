@@ -1,21 +1,26 @@
 import 'package:just_audio/just_audio.dart';
-import '../data/audio_item.dart';
 
 class AudioService {
-  final AudioPlayer _player = AudioPlayer();
+  final AudioPlayer _player;
 
-  Future<void> play(AudioItem item) async {
-    try {
-      await _player.setAsset(item.asset);
-      await _player.play();
-    } catch (e) {
-      print("Audio error: $e");
-    }
+  AudioService(this._player);
+
+  AudioPlayer get player => _player;
+
+  Future<void> play(String assetPath) async {
+    await _player.setAsset(assetPath);
+    await _player.play();
   }
 
-  Future<void> stop() async {
-    await _player.stop();
-  }
+  Future<void> pause() async => _player.pause();
+
+  Future<void> resume() async => _player.play();
+
+  Future<void> stop() async => _player.stop();
+
+  Stream<Duration> get positionStream => _player.positionStream;
+  Stream<Duration?> get durationStream => _player.durationStream;
+  Stream<PlayerState> get playerStateStream => _player.playerStateStream;
 
   void dispose() {
     _player.dispose();

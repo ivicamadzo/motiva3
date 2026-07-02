@@ -1,54 +1,77 @@
 import 'package:flutter/material.dart';
-import '../data/audio_item.dart';
-import '../services/audio_service.dart';
-import 'play_button.dart';
-import 'progress_bar.dart';
-import 'artwork.dart';
+import '../data/models/audio_state.dart';
 
 class MiniPlayer extends StatelessWidget {
-  final AudioItem item;
-  final AudioService audioService;
+  final Stream<AudioState> stateStream;
+  final VoidCallback onPlayPause;
+  final VoidCallback onStop;
 
-  const MiniPlayer({super.key, required this.item, required this.audioService});
+  const MiniPlayer({
+    super.key,
+    required this.stateStream,
+    required this.onPlayPause,
+    required this.onStop,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.black12,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
+    return StreamBuilder<AudioState>(
+      stream: stateStream,
+      builder: (context, snapshot) {
+        final state = snapshot.data;
+
+        if (state == null || state.currentTrack == null) {
+          return const SizedBox.shrink();
+        }
+
+        return Container(
+          height: 70,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: const BoxDecoration(
+            color: Colors.black87,
+            border: Border(top: BorderSide(color: Colors.white12)),
+          ),
+          child: Row(
             children: [
-              Artwork(item: item),
-              const SizedBox(width: 12),
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item.title,
+                      state.currentTrack!.title,
                       style: const TextStyle(
-                        fontSize: 16,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    ProgressBar(progress: 0.3),
+                    Text(
+                      state.currentCategory?.name ?? "",
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 12,
+                      ),
+                    ),
                   ],
                 ),
               ),
+
+              IconButton(
+                onPressed: onPlayPause,
+                icon: Icon(
+                  state.isPlaying ? Icons.pause : Icons.play_arrow,
+                  color: Colors.white,
+                ),
+              ),
+
+              IconButton(
+                onPressed: onStop,
+                icon: const Icon(Icons.stop, color: Colors.white),
+              ),
             ],
           ),
-          const SizedBox(height: 12),
-          PlayButton(audioService: audioService, item: item),
-        ],
-      ),
+        );
+      },
     );
   }
 }

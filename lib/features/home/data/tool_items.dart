@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../breathing/screens/breathing_home_screen.dart';
 import '../../panic/panic_screen.dart';
+import '../../test_audio/test_audio_screen.dart';
 
 class ToolNavItem {
   final IconData icon;
@@ -25,5 +26,10 @@ final toolCards = [
     icon: Icons.warning,
     title: "Паника",
     screenBuilder: () => PanicScreen(),
+  ),
+  ToolNavItem(
+    icon: Icons.bug_report,
+    title: "Audio Test",
+    screenBuilder: () => const TestAudioScreen(),
   ),
 ];

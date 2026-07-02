@@ -1,13 +1,6 @@
 class AudioItem {
-  final String id;
   final String title;
-  final String asset;
-  final String artwork;
+  final String assetPath;
 
-  const AudioItem({
-    required this.id,
-    required this.title,
-    required this.asset,
-    required this.artwork,
-  });
+  AudioItem({required this.title, required this.assetPath});
 }
