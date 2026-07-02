@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
 
 import '../../breathing/screens/breathing_home_screen.dart';
+import '../../panic/panic_screen.dart';
 
 class ToolNavItem {
   final IconData icon;
   final String title;
-  final Widget screen;
+  final Widget Function() screenBuilder;
 
-  const ToolNavItem({
+  ToolNavItem({
     required this.icon,
     required this.title,
-    required this.screen,
+    required this.screenBuilder,
   });
 }
 
-const toolCards = [
-  ToolNavItem(icon: Icons.air, title: "Дишење", screen: BreathingHomeScreen()),
+final toolCards = [
+  ToolNavItem(
+    icon: Icons.air,
+    title: "Дишење",
+    screenBuilder: () => BreathingHomeScreen(),
+  ),
+  ToolNavItem(
+    icon: Icons.warning,
+    title: "Паника",
+    screenBuilder: () => PanicScreen(),
+  ),
 ];

@@ -5,49 +5,49 @@ import '../../psychoeducation/psychoeducation_exports.dart';
 class PsychoeducationNavItem {
   final IconData icon;
   final String title;
-  final Widget screen;
+  final Widget Function() screenBuilder;
 
-  const PsychoeducationNavItem({
+  PsychoeducationNavItem({
     required this.icon,
     required this.title,
-    required this.screen,
+    required this.screenBuilder,
   });
 }
 
-const psychoeducationCards = [
+final psychoeducationCards = [
   PsychoeducationNavItem(
     icon: Icons.people_outline,
     title: "Социјална\nанксиозност",
-    screen: SocialAnxietyScreen(),
+    screenBuilder: () => SocialAnxietyScreen(),
   ),
 
   PsychoeducationNavItem(
     icon: Icons.psychology_outlined,
     title: "Интрузивни\nмисли",
-    screen: IntrusiveThoughtsScreen(),
+    screenBuilder: () => IntrusiveThoughtsScreen(),
   ),
 
   PsychoeducationNavItem(
     icon: Icons.schedule_outlined,
     title: "Антиципаторна\nанксиозност",
-    screen: AnticipatoryAnxietyScreen(),
+    screenBuilder: () => AnticipatoryAnxietyScreen(),
   ),
 
   PsychoeducationNavItem(
     icon: Icons.loop,
     title: "Overthinking",
-    screen: OverthinkingScreen(),
+    screenBuilder: () => OverthinkingScreen(),
   ),
 
   PsychoeducationNavItem(
     icon: Icons.visibility_outlined,
     title: "Страв од\nосуда",
-    screen: FearOfJudgmentScreen(),
+    screenBuilder: () => FearOfJudgmentScreen(),
   ),
 
   PsychoeducationNavItem(
     icon: Icons.help_outline,
     title: "Потреба за\nуверување",
-    screen: ReassuranceScreen(),
+    screenBuilder: () => ReassuranceScreen(),
   ),
 ];

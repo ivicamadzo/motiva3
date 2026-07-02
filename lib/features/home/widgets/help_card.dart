@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-
 import '../../../theme/theme_exports.dart';
 
 class HelpCard extends StatelessWidget {
   final IconData icon;
   final String title;
-  final Widget screen;
+
+  final Widget Function() screenBuilder;
 
   const HelpCard({
     super.key,
     required this.icon,
     required this.title,
-    required this.screen,
+    required this.screenBuilder,
   });
 
   @override
@@ -21,7 +21,10 @@ class HelpCard extends StatelessWidget {
       child: InkWell(
         borderRadius: AppRadius.mediumBorder,
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => screenBuilder()),
+          );
         },
         child: Container(
           width: 140,
@@ -34,10 +37,13 @@ class HelpCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, size: 32, color: AppColors.primary),
-
               const SizedBox(height: AppSpacing.sm),
-
-              Text(title, textAlign: TextAlign.center, maxLines: 2),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
           ),
         ),

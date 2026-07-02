@@ -32,20 +32,15 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: AppSpacing.sm),
-
               const GreetingCard(),
-
               const SizedBox(height: AppSpacing.lg),
-
               Text(
                 "Алатки",
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
-
               const SizedBox(height: AppSpacing.md),
-
               SizedBox(
                 height: 130,
                 child: ListView(
@@ -54,23 +49,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     return HelpCard(
                       icon: item.icon,
                       title: item.title,
-                      screen: item.screen,
+                      screenBuilder: item.screenBuilder,
                     );
                   }).toList(),
                 ),
               ),
-
               const SizedBox(height: AppSpacing.lg),
-
               Text(
                 "Што ми се случува во моментов?",
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
-
               const SizedBox(height: AppSpacing.md),
-
               SizedBox(
                 height: 130,
                 child: ListView(
@@ -79,20 +70,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     return HelpCard(
                       icon: item.icon,
                       title: item.title,
-                      screen: item.screen,
+                      screenBuilder: item.screenBuilder,
                     );
                   }).toList(),
                 ),
               ),
-
               const SizedBox(height: AppSpacing.lg),
-
               QuoteCard(quote: quote["quote"]!, author: quote["author"]!),
-
               const SizedBox(height: AppSpacing.lg),
-
               const SafeCard(),
-
               const SizedBox(height: AppSpacing.lg),
             ],
           ),
