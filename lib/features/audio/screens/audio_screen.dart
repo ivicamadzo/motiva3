@@ -14,7 +14,10 @@ class AudioScreen extends StatelessWidget {
       appBar: AppBar(title: const Text("Now Playing")),
 
       body: StreamBuilder<AudioState>(
-        stream: controller.stateStream,
+        stream: controller
+            .stateStream, // ИЗМЕНЕТО: Се користи stateStream наместо listenable
+        initialData: controller
+            .currentState, // ДОДАДЕНО: За веднаш да ја има почетната состојба
         builder: (context, snapshot) {
           final state = snapshot.data;
 
