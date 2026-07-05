@@ -23,7 +23,7 @@ class AudioEngine {
           id: item.assetPath,
           title: item.title,
           artist: 'Motiva',
-          artUri: Uri.parse('asset:///${item.artwork}'),
+          // artUri: Uri.parse('asset:///${item.artwork}'), // Избриши ја оваа линија
         ),
       );
 
