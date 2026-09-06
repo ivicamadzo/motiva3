@@ -21,7 +21,7 @@ class ProgressSlider extends StatelessWidget {
     return Slider(
       value: sliderValue,
       activeColor: Theme.of(context).primaryColor,
-      inactiveColor: Theme.of(context).primaryColor.withOpacity(0.2),
+      inactiveColor: Theme.of(context).primaryColor.withValues(alpha: 0.2),
       onChanged: (val) {
         final newPosition = Duration(
           milliseconds: (val * duration.inMilliseconds).toInt(),

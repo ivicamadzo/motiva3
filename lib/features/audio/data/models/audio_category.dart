@@ -1,1 +1,1 @@
-enum AudioCategory { panic, overthinking, rumination, test }
+enum AudioCategory { panic, overthinking, rumination, insomnia, meditation }

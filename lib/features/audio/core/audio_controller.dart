@@ -1,5 +1,7 @@
 import 'dart:async';
-import 'package:just_audio/just_audio.dart'; // За ProcessingState
+
+import 'package:flutter/foundation.dart';
+import 'package:just_audio/just_audio.dart';
 
 import '../engine/audio_engine.dart';
 import '../data/models/audio_item.dart';
@@ -7,27 +9,22 @@ import '../data/models/audio_category.dart';
 import '../data/models/audio_state.dart';
 
 import '../data/playlists/panic_playlist.dart';
-import '../data/playlists/overthinking_playlist.dart';
-import '../data/playlists/rumination_playlist.dart';
-import '../data/playlists/test_playlist.dart';
+import '../data/playlists/meditation_playlist.dart';
 
 class AudioController {
   final AudioEngine engine;
 
-  // Оптимизирана мапа на плејлисти со што се елиминира потребата од гломазен switch
   final Map<AudioCategory, List<AudioItem>> _playlists = {
     AudioCategory.panic: panicPlaylist,
-    AudioCategory.overthinking: overthinkingPlaylist,
-    AudioCategory.rumination: ruminationPlaylist,
-    AudioCategory.test: testPlaylist,
+    AudioCategory.meditation: meditationPlaylist,
   };
 
   AudioController(this.engine) {
-    _initAutoNext();
+    _initAudioListener();
   }
 
   // =========================
-  // INTERNAL STATE & STREAMS
+  // INTERNAL STATE
   // =========================
 
   AudioCategory? _currentCategory;
@@ -35,37 +32,46 @@ class AudioController {
   List<AudioItem> _currentPlaylist = [];
   int _currentIndex = 0;
 
-  // Чуваме само една последна состојба (nullable) - Единствен извор на вистина
   AudioState? _lastState;
 
-  // Стрим контролер за емитување на состојбата во реално време
   final StreamController<AudioState> _stateStreamController =
       StreamController<AudioState>.broadcast();
 
-  // Getter за UI компонентите кои ќе го слушаат стримот
+  // =========================
+  // GETTERS
+  // =========================
+
   Stream<AudioState> get stateStream => _stateStreamController.stream;
 
-  // Getter за моментална состојба (корисно за initialData во StreamBuilder)
   AudioState get currentState =>
       _lastState ??
       AudioState(currentTrack: null, currentCategory: null, isPlaying: false);
 
-  // Стримови за аудио прогрес кои се пренасочуваат од AudioEngine
   Stream<Duration?> get durationStream => engine.durationStream;
+
   Stream<Duration> get positionStream => engine.positionStream;
+
+  Duration get currentPosition => engine.currentPosition;
+
+  Duration get currentDuration => engine.currentDuration;
+
+  // =========================
+  // SEEK
+  // =========================
 
   Future<void> seek(Duration position) async {
     await engine.seek(position);
   }
 
   // =========================
-  // STATE UPDATE (SAFE)
+  // STATE UPDATE
   // =========================
 
   void _setState(AudioState Function(AudioState s) update) {
     final oldState =
         _lastState ??
         AudioState(currentTrack: null, currentCategory: null, isPlaying: false);
+
     final newState = update(oldState);
 
     _lastState = newState;
@@ -83,15 +89,18 @@ class AudioController {
     if (_currentPlaylist.isEmpty) return;
 
     _currentIndex = 0;
+
     await _playAtIndex(_currentIndex);
   }
 
   // =========================
-  // CORE PLAY (IMPORTANT)
+  // PLAY BY INDEX
   // =========================
 
   Future<void> _playAtIndex(int index) async {
-    if (index < 0 || index >= _currentPlaylist.length) return;
+    if (index < 0 || index >= _currentPlaylist.length) {
+      return;
+    }
 
     _currentIndex = index;
     _currentTrack = _currentPlaylist[_currentIndex];
@@ -101,43 +110,86 @@ class AudioController {
     await engine.loadAsset(track);
 
     _setState(
+      (s) => s.copyWith(currentTrack: track, currentCategory: _currentCategory),
+    );
+
+    unawaited(engine.play());
+  }
+
+  // =========================
+  // PLAY SINGLE TRACK
+  // =========================
+
+  Future<void> playTrack(AudioItem item, {AudioCategory? category}) async {
+    debugPrint('🔥 PLAY TRACK CALLED: ${item.title}');
+
+    // Ако е истата песна → продолжи
+    if (_currentTrack?.assetPath == item.assetPath &&
+        engine.currentPosition != Duration.zero) {
+      debugPrint('▶️ SAME TRACK - RESUMING');
+      unawaited(engine.play());
+      return;
+    }
+
+    _currentTrack = item;
+
+    if (category != null) {
+      _currentCategory = category;
+      _currentPlaylist = _playlists[category] ?? [];
+
+      final index = _currentPlaylist.indexOf(item);
+
+      if (index != -1) {
+        _currentIndex = index;
+      }
+    }
+
+    // 1. Стопирај што свири моментално
+    await engine.stop();
+
+    _setState(
       (s) => s.copyWith(
-        currentTrack: track,
+        currentTrack: item,
         currentCategory: _currentCategory,
-        isPlaying: true,
+        isPlaying: false,
       ),
     );
 
-    await engine.play();
+    // 2. Вчитај ја новата песна
+    final duration = await engine.loadAsset(item);
+
+    if (duration == null) {
+      debugPrint('❌ AUDIO LOAD FAILED: ${item.title}');
+      return;
+    }
+
+    // 3. Пушти ја новата песна
+    unawaited(engine.play());
+
+    debugPrint('▶️ PLAY STARTED: ${item.title}');
   }
 
   // =========================
-  // SINGLE TRACK
-  // =========================
-
-  Future<void> playTrack(AudioItem item) async {
-    _currentTrack = item;
-
-    await engine.loadAsset(item);
-
-    _setState((s) => s.copyWith(currentTrack: item, isPlaying: true));
-
-    await engine.play();
-  }
-
-  // =========================
-  // CONTROL
+  // PAUSE
   // =========================
 
   Future<void> pause() async {
     await engine.pause();
+
     _setState((s) => s.copyWith(isPlaying: false));
   }
 
+  // =========================
+  // RESUME
+  // =========================
+
   Future<void> resume() async {
     await engine.play();
-    _setState((s) => s.copyWith(isPlaying: true));
   }
+
+  // =========================
+  // STOP
+  // =========================
 
   Future<void> stop() async {
     await engine.stop();
@@ -157,11 +209,13 @@ class AudioController {
   }
 
   // =========================
-  // NEXT / PREVIOUS
+  // NEXT
   // =========================
 
   Future<void> next() async {
-    if (_currentPlaylist.isEmpty) return;
+    if (_currentPlaylist.isEmpty) {
+      return;
+    }
 
     final nextIndex = _currentIndex + 1;
 
@@ -173,12 +227,20 @@ class AudioController {
     await _playAtIndex(nextIndex);
   }
 
+  // =========================
+  // PREVIOUS
+  // =========================
+
   Future<void> previous() async {
-    if (_currentPlaylist.isEmpty) return;
+    if (_currentPlaylist.isEmpty) {
+      return;
+    }
 
     final prevIndex = _currentIndex - 1;
 
-    if (prevIndex < 0) return;
+    if (prevIndex < 0) {
+      return;
+    }
 
     await _playAtIndex(prevIndex);
   }
@@ -189,26 +251,36 @@ class AudioController {
 
   StreamSubscription? _sub;
 
-  void _initAutoNext() {
+  void _initAudioListener() {
     _sub = engine.playerStateStream.listen((state) async {
+      debugPrint(
+        '--- AUDIO ENGINE STATE: '
+        'isPlaying=${state.playing}, '
+        'processingState=${state.processingState} ---',
+      );
+
+      // Реалниот статус на плеерот
+      _setState((s) => s.copyWith(isPlaying: state.playing));
+
+      // Автоматски премини на следната песна
       if (state.processingState == ProcessingState.completed) {
         if (_currentPlaylist.isEmpty) {
-          // РАЧНО ИЗБРАНО АУДИО: Се ресетира на почеток без да се брише трекот
           await engine.seek(Duration.zero);
           await engine.pause();
-
-          _setState((s) => s.copyWith(isPlaying: false));
         } else {
-          // Ако е пуштена цела категорија, продолжува на следна песна
-          next();
+          await next();
         }
       }
     });
   }
 
+  // =========================
+  // DISPOSE
+  // =========================
+
   void dispose() {
     _sub?.cancel();
     _stateStreamController.close();
-    engine.dispose(); // Се повикува со цел спречување на memory leaks
+    engine.dispose();
   }
 }

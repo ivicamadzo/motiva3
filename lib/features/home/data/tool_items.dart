@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../breathing/screens/breathing_home_screen.dart';
-import '../../panic/panic_list_screen.dart'; // Ова е единствениот import за паника што ти треба
-import '../../test_audio/test_audio_screen.dart';
+import '../../sessions/panic/panic_list_screen.dart';
+import 'package:motiva3/features/sessions/meditation/screens/meditation_list_screen.dart';
 
 class ToolNavItem {
   final IconData icon;
@@ -25,11 +25,12 @@ final toolCards = [
   ToolNavItem(
     icon: Icons.warning,
     title: "Паника",
-    screenBuilder: () => const PanicListScreen(), // ТУКА е сменатата класа
+    screenBuilder: () => const PanicListScreen(),
   ),
+
   ToolNavItem(
-    icon: Icons.bug_report,
-    title: "Audio Test",
-    screenBuilder: () => const TestAudioScreen(),
+    icon: Icons.self_improvement,
+    title: "Медитација",
+    screenBuilder: () => const MeditationListScreen(),
   ),
 ];

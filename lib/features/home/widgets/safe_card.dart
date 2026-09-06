@@ -15,14 +15,14 @@ class SafeCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "💙 You are safe.",
+            "💙 Безбедни сте",
             style: Theme.of(context).textTheme.titleMedium,
           ),
 
           const SizedBox(height: AppSpacing.xs),
 
           Text(
-            "This feeling will pass. Focus on one breath at a time.",
+            "Ќе помине. Фокусирајте се на дишењето",
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
           ),

@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
-                "Што ми се случува во моментов?",
+                "Едукација",
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
