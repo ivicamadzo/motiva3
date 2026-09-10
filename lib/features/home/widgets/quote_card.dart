@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../theme/theme_exports.dart';
 
 class QuoteCard extends StatelessWidget {
@@ -10,26 +11,43 @@ class QuoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      width: double.infinity,
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: AppRadius.mediumBorder,
+        borderRadius: AppRadius.largeBorder,
+        border: Border.all(color: AppColors.border),
+        boxShadow: AppShadows.subtleList,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '"$quote"',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleMedium,
+          Icon(
+            Icons.format_quote_rounded,
+            size: 28,
+            color: AppColors.primaryLight,
           ),
 
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.md),
 
           Text(
-            "— $author",
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+            '"$quote"',
+            style: MotivaTypography.body.copyWith(
+              color: AppColors.textPrimary,
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              height: 1.55,
+            ),
+          ),
+
+          const SizedBox(height: AppSpacing.md),
+
+          Text(
+            '— $author',
+            style: MotivaTypography.caption.copyWith(
+              color: AppColors.textMuted,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ],
       ),

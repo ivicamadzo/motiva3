@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../theme/theme_exports.dart';
+
 class PsychoCard {
   final String title;
   final String content;
@@ -27,95 +29,133 @@ class _PsychoeducationScreenState extends State<PsychoeducationScreen> {
   int _currentPage = 0;
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _nextPage() {
+    if (_currentPage < widget.pages.length - 1) {
+      _controller.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
+      );
+    } else {
+      Navigator.pop(context);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final bool isLastPage = _currentPage == widget.pages.length - 1;
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _controller,
-              itemCount: widget.pages.length,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentPage = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                final page = widget.pages[index];
 
-                return Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            page.title,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          const SizedBox(height: 24),
-                          Text(
-                            page.content,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                controller: _controller,
+                itemCount: widget.pages.length,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  final page = widget.pages[index];
+
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.md,
+                      AppSpacing.md,
+                      AppSpacing.md,
+                      AppSpacing.lg,
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppSpacing.xl),
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius: AppRadius.largeBorder,
+                        border: Border.all(color: AppColors.border),
+                        boxShadow: AppShadows.softList,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              page.title,
+                              textAlign: TextAlign.center,
+                              style: MotivaTypography.h2.copyWith(
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+
+                            const SizedBox(height: AppSpacing.lg),
+
+                            Text(
+                              page.content,
+                              textAlign: TextAlign.center,
+                              style: MotivaTypography.body.copyWith(
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                  );
+                },
+              ),
+            ),
+
+            // ─────────────────────────────────────
+            // PAGE INDICATOR
+            // ─────────────────────────────────────
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(widget.pages.length, (index) {
+                final bool isActive = _currentPage == index;
+
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: isActive ? 20 : 7,
+                  height: 7,
+                  decoration: BoxDecoration(
+                    color: isActive ? AppColors.primary : AppColors.borderLight,
+                    borderRadius: AppRadius.pillBorder,
                   ),
                 );
-              },
+              }),
             ),
-          ),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              widget.pages.length,
-              (index) => Container(
-                margin: const EdgeInsets.all(4),
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _currentPage == index
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.grey.shade400,
+            const SizedBox(height: AppSpacing.lg),
+
+            // ─────────────────────────────────────
+            // ACTION
+            // ─────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                0,
+                AppSpacing.md,
+                AppSpacing.md,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _nextPage,
+                  child: Text(isLastPage ? 'Разбрав' : 'Следна'),
                 ),
               ),
             ),
-          ),
-
-          const SizedBox(height: 16),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_currentPage < widget.pages.length - 1) {
-                    _controller.nextPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  } else {
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text(
-                  _currentPage == widget.pages.length - 1
-                      ? "Разбрав"
-                      : "Следна",
-                ),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

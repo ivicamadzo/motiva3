@@ -3,28 +3,37 @@ import '../services/breathing_engine.dart';
 
 class BreathingPhaseText extends StatelessWidget {
   final BreathingPhase phase;
+  final bool isPreparing;
 
-  const BreathingPhaseText({super.key, required this.phase});
+  const BreathingPhaseText({
+    super.key,
+    required this.phase,
+    this.isPreparing = false,
+  });
 
   String get text {
+    if (isPreparing) return "ПОДГОТВИ СЕ";
+
     switch (phase) {
       case BreathingPhase.inhale:
-        return "INHALE";
+        return "ВДИШИ";
       case BreathingPhase.hold:
-        return "HOLD";
+        return "ЗАДРЖИ";
       case BreathingPhase.exhale:
-        return "EXHALE";
+        return "ИЗДИШИ";
     }
   }
 
   String get subtitle {
+    if (isPreparing) return "Вежбата започнува за момент";
+
     switch (phase) {
       case BreathingPhase.inhale:
-        return "Breathe in slowly";
+        return "Вдиши полека";
       case BreathingPhase.hold:
-        return "Keep the air";
+        return "Задржи го воздухот";
       case BreathingPhase.exhale:
-        return "Release slowly";
+        return "Издиши полека";
     }
   }
 

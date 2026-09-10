@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 
-import '../../audio/core/audio_singleton.dart';
-import '../../audio/data/models/audio_category.dart';
-import '../../audio/data/playlists/panic_playlist.dart';
-import '../../audio/screens/audio_screen.dart';
+import 'package:motiva3/features/audio/core/audio_singleton.dart';
+import 'package:motiva3/features/audio/data/models/audio_category.dart';
+import 'package:motiva3/features/audio/data/playlists/meditation_playlist.dart';
+import 'package:motiva3/features/audio/screens/audio_screen.dart';
 
-class PanicListScreen extends StatelessWidget {
-  const PanicListScreen({super.key});
+class MeditationListScreen extends StatelessWidget {
+  const MeditationListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Panic Relief'), centerTitle: true),
-
+      appBar: AppBar(title: const Text('Медитација'), centerTitle: true),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),
-        itemCount: panicPlaylist.length,
-
+        itemCount: meditationPlaylist.length,
         separatorBuilder: (_, _) => const SizedBox(height: 8),
-
         itemBuilder: (context, index) {
-          final item = panicPlaylist[index];
+          final item = meditationPlaylist[index];
 
           return Card(
             child: ListTile(
@@ -28,7 +25,6 @@ class PanicListScreen extends StatelessWidget {
                 horizontal: 16,
                 vertical: 6,
               ),
-
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.asset(
@@ -38,13 +34,9 @@ class PanicListScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-
               title: Text(item.title),
-
-              subtitle: const Text('Panic Relief аудио'),
-
+              subtitle: const Text('Водена аудио медитација'),
               trailing: const Icon(Icons.play_circle_fill),
-
               onTap: () {
                 final currentTrack =
                     AudioSingleton.controller.currentState.currentTrack;
@@ -52,7 +44,7 @@ class PanicListScreen extends StatelessWidget {
                 if (currentTrack?.assetPath != item.assetPath) {
                   AudioSingleton.controller.playTrack(
                     item,
-                    category: AudioCategory.panic,
+                    category: AudioCategory.meditation,
                   );
                 }
 

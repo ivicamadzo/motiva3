@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../models/breathing_technique.dart';
@@ -17,6 +18,8 @@ class BreathingPlayerScreen extends StatefulWidget {
 
 class _BreathingPlayerScreenState extends State<BreathingPlayerScreen> {
   late final BreathingEngine _engine;
+  Timer? _startTimer;
+  bool _isPreparing = true;
 
   @override
   void initState() {
@@ -32,12 +35,17 @@ class _BreathingPlayerScreenState extends State<BreathingPlayerScreen> {
       },
     );
 
-    _engine.start();
+    _startTimer = Timer(const Duration(seconds: 3), () {
+      if (!mounted) return;
+      setState(() => _isPreparing = false);
+      _engine.start();
+    });
   }
 
   @override
   void dispose() {
     _engine.dispose();
+    _startTimer?.cancel();
     super.dispose();
   }
 
@@ -45,13 +53,14 @@ class _BreathingPlayerScreenState extends State<BreathingPlayerScreen> {
     final t = widget.technique;
 
     if (t.holdSeconds == 0) {
-      return "${t.inhaleSeconds}s inhale • "
-          "${t.exhaleSeconds}s exhale";
+      return "${t.inhaleSeconds}с вдишување • "
+          "${t.exhaleSeconds}с издишување";
     }
 
-    return "${t.inhaleSeconds}s inhale • "
-        "${t.holdSeconds}s hold • "
-        "${t.exhaleSeconds}s exhale";
+    return "${t.inhaleSeconds}с вдишување • "
+        "${t.holdSeconds}с задржување • "
+        "${t.exhaleSeconds}с издишување"
+        "${t.holdAfterExhale ? ' • ${t.holdSeconds}с задржување' : ''}";
   }
 
   @override
@@ -74,11 +83,16 @@ class _BreathingPlayerScreenState extends State<BreathingPlayerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            BreathingCircle(phase: _engine.phase),
+            BreathingCircle(
+              phase: _engine.phase,
+              isAfterExhale: _engine.isAfterExhale,
+              phaseSeconds: _phaseSeconds,
+              isPreparing: _isPreparing,
+            ),
 
             const SizedBox(height: 30),
 
-            BreathingPhaseText(phase: _engine.phase),
+            BreathingPhaseText(phase: _engine.phase, isPreparing: _isPreparing),
 
             const SizedBox(height: 16),
 
@@ -103,5 +117,18 @@ class _BreathingPlayerScreenState extends State<BreathingPlayerScreen> {
         ),
       ),
     );
+  }
+
+  int get _phaseSeconds {
+    if (_isPreparing) return 0;
+
+    switch (_engine.phase) {
+      case BreathingPhase.inhale:
+        return widget.technique.inhaleSeconds;
+      case BreathingPhase.hold:
+        return widget.technique.holdSeconds;
+      case BreathingPhase.exhale:
+        return widget.technique.exhaleSeconds;
+    }
   }
 }

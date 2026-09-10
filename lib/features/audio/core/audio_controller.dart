@@ -10,6 +10,7 @@ import '../data/models/audio_state.dart';
 
 import '../data/playlists/panic_playlist.dart';
 import '../data/playlists/meditation_playlist.dart';
+import '../data/playlists/pmr_playlist.dart';
 
 class AudioController {
   final AudioEngine engine;
@@ -17,6 +18,7 @@ class AudioController {
   final Map<AudioCategory, List<AudioItem>> _playlists = {
     AudioCategory.panic: panicPlaylist,
     AudioCategory.meditation: meditationPlaylist,
+    AudioCategory.pmr: pmrPlaylist,
   };
 
   AudioController(this.engine) {

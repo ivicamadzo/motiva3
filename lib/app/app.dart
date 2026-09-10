@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Motiva',
-      theme: AppTheme.light,
+      theme: AppTheme.dark,
       routes: AppRoutes.routes,
       initialRoute: AppRoutes.initial,
     );

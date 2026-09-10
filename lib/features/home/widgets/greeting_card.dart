@@ -9,61 +9,85 @@ class GreetingCard extends StatelessWidget {
     final hour = DateTime.now().hour;
 
     if (hour < 12) {
-      return "Добро утро 👋";
+      return 'Добро утро 👋';
     }
 
     if (hour < 18) {
-      return "Добар ден 👋";
+      return 'Добар ден 👋';
     }
 
-    return "Добра вечер 👋";
+    return 'Добра вечер 👋';
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.xl),
-
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColors.primary, AppColors.primaryLight],
-        ),
-
-        borderRadius: AppRadius.mediumBorder,
+        gradient: AppGradients.primary,
+        borderRadius: AppRadius.largeBorder,
+        boxShadow: AppShadows.softList,
       ),
-
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-
+      child: Stack(
         children: [
-          Text(
-            getGreeting(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                getGreeting(),
+                style: MotivaTypography.h2.copyWith(color: Colors.white),
+              ),
 
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: Colors.white,
+              const SizedBox(height: AppSpacing.sm),
 
-              fontWeight: FontWeight.bold,
+              Text(
+                'Како се чувствуваш денес?',
+                style: MotivaTypography.h1.copyWith(
+                  color: Colors.white,
+                  fontSize: 26,
+                ),
+              ),
+
+              const SizedBox(height: AppSpacing.sm),
+
+              Text(
+                'Тука сум за тебе. Земете момент за себе.',
+                style: MotivaTypography.body.copyWith(
+                  color: Colors.white.withValues(alpha: 0.82),
+                ),
+              ),
+            ],
+          ),
+
+          Positioned(
+            right: -20,
+            bottom: -30,
+            child: Container(
+              width: 110,
+              height: 110,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.08),
+              ),
             ),
           ),
 
-          const SizedBox(height: AppSpacing.xs),
-
-          Text(
-            "Како се чувствуваш денес?",
-
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge?.copyWith(color: Colors.white70),
-          ),
-
-          const SizedBox(height: AppSpacing.md),
-
-          Text(
-            "Тука сум за да ти помогнам да се смириш и да ја вратиш контролата.",
-
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+          Positioned(
+            right: 25,
+            bottom: 20,
+            child: Container(
+              width: 46,
+              height: 46,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.10),
+              ),
+              child: const Icon(
+                Icons.spa_outlined,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
           ),
         ],
       ),

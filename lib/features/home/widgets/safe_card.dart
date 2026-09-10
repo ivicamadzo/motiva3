@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../theme/theme_exports.dart';
 
 class SafeCard extends StatelessWidget {
@@ -7,24 +8,56 @@ class SafeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      width: double.infinity,
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: AppRadius.mediumBorder,
+        borderRadius: AppRadius.largeBorder,
+        border: Border.all(
+          color: AppColors.successSoft.withValues(alpha: 0.45),
+        ),
+        boxShadow: AppShadows.subtleList,
       ),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "💙 Безбедни сте",
-            style: Theme.of(context).textTheme.titleMedium,
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.success.withValues(alpha: 0.12),
+              borderRadius: AppRadius.mediumBorder,
+            ),
+            child: const Icon(
+              Icons.favorite_outline_rounded,
+              color: AppColors.success,
+              size: 23,
+            ),
           ),
 
-          const SizedBox(height: AppSpacing.xs),
+          const SizedBox(width: AppSpacing.md),
 
-          Text(
-            "Ќе помине. Фокусирајте се на дишењето",
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Безбедно е да забавиш.',
+                  style: MotivaTypography.h3.copyWith(
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.xs),
+
+                Text(
+                  'Земи здив. Овој момент ќе помине.',
+                  style: MotivaTypography.bodySmall.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

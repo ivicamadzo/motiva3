@@ -1,15 +1,3 @@
-// =======================================
-// Future breathing techniques
-// =======================================
-//
-// TODO: 6-2-8 Breathing
-// TODO: Triangle Breathing
-// TODO: Coherent Breathing (5-5)
-// TODO: Pursed Lip Breathing
-// TODO: Alternate Nostril Breathing
-// TODO: Physiological Sigh
-//
-
 import 'package:flutter/material.dart';
 
 import '../data/breathing_techniques.dart';
@@ -22,44 +10,45 @@ class BreathingHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Breathing Techniques")),
+      appBar: AppBar(title: const Text("Техники на Дишење")),
 
-      body: ListView(
+      body: ListView.separated(
         padding: const EdgeInsets.all(16),
 
-        children: [
-          _techniqueTile(
+        itemCount: breathingTechniques.length,
+
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+
+        itemBuilder: (context, index) {
+          final technique = breathingTechniques[index];
+
+          return _techniqueTile(
             context,
-            technique: boxBreathing,
-            icon: Icons.crop_square,
-          ),
-
-          const SizedBox(height: 12),
-
-          _techniqueTile(
-            context,
-            technique: relaxingBreathing,
-            icon: Icons.spa_outlined,
-          ),
-
-          const SizedBox(height: 12),
-
-          _techniqueTile(
-            context,
-            technique: fourSevenEightBreathing,
-            icon: Icons.nightlight_round,
-          ),
-
-          const SizedBox(height: 12),
-
-          _techniqueTile(
-            context,
-            technique: resonanceBreathing,
-            icon: Icons.favorite_outline,
-          ),
-        ],
+            technique: technique,
+            icon: _iconForTechnique(technique),
+          );
+        },
       ),
     );
+  }
+
+  IconData _iconForTechnique(BreathingTechnique technique) {
+    switch (technique.id) {
+      case 'box':
+        return Icons.crop_square;
+
+      case 'relax':
+        return Icons.spa_outlined;
+
+      case '478':
+        return Icons.nightlight_round;
+
+      case 'resonance':
+        return Icons.favorite_outline;
+
+      default:
+        return Icons.air;
+    }
   }
 
   Widget _techniqueTile(
@@ -78,7 +67,8 @@ class BreathingHomeScreen extends StatelessWidget {
               ? "${technique.inhaleSeconds} • ${technique.exhaleSeconds}"
               : "${technique.inhaleSeconds} • "
                     "${technique.holdSeconds} • "
-                    "${technique.exhaleSeconds}",
+                    "${technique.exhaleSeconds}"
+                    "${technique.holdAfterExhale ? ' • ${technique.holdSeconds}' : ''}",
         ),
 
         trailing: const Icon(Icons.chevron_right),

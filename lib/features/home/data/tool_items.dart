@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../breathing/screens/breathing_home_screen.dart';
-import '../../sessions/panic/panic_list_screen.dart';
-import 'package:motiva3/features/sessions/meditation/screens/meditation_list_screen.dart';
+import 'package:motiva3/features/meditation/screens/meditation_list_screen.dart';
+import 'package:motiva3/features/panic/screens/panic_home_screen.dart';
 
 class ToolNavItem {
   final IconData icon;
@@ -25,7 +25,7 @@ final toolCards = [
   ToolNavItem(
     icon: Icons.warning,
     title: "Паника",
-    screenBuilder: () => const PanicListScreen(),
+    screenBuilder: () => const PanicHomeScreen(),
   ),
 
   ToolNavItem(

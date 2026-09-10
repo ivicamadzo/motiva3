@@ -5,6 +5,7 @@ class BreathingTechnique {
   final int inhaleSeconds;
   final int holdSeconds;
   final int exhaleSeconds;
+  final bool holdAfterExhale;
 
   final int cycles;
 
@@ -14,6 +15,7 @@ class BreathingTechnique {
     required this.inhaleSeconds,
     required this.holdSeconds,
     required this.exhaleSeconds,
+    this.holdAfterExhale = false,
     required this.cycles,
   });
 }

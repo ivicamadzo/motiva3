@@ -25,4 +25,5 @@ flutter:
 
   assets:
     - assets/audio/
+    - assets/audio/breathingsounds/
     - assets/images/
