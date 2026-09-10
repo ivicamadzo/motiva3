@@ -1,7 +1,7 @@
-import '../features/home/screens/home_screen.dart';
+import 'navigation/main_navigation.dart';
 
 class AppRoutes {
   static const initial = '/';
 
-  static final routes = {'/': (context) => const HomeScreen()};
+  static final routes = {'/': (context) => const MainNavigation()};
 }
