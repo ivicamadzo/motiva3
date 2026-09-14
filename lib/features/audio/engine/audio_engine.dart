@@ -50,11 +50,20 @@ class AudioEngine {
   // PLAYER CONTROLS
   // ─────────────────────────────────────────
 
-  Future<void> play() async => await _player.play();
+  Future<void> play() async {
+    await AppAudioSession.activate();
+    await _player.play();
+  }
 
-  Future<void> pause() async => await _player.pause();
+  Future<void> pause() async {
+    await _player.pause();
+    await AppAudioSession.deactivate();
+  }
 
-  Future<void> stop() async => await _player.stop();
+  Future<void> stop() async {
+    await _player.stop();
+    await AppAudioSession.deactivate();
+  }
 
   Future<void> seek(Duration position) async {
     await _player.seek(position);

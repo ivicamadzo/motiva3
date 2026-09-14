@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 import 'app/app.dart';
-import 'features/audio/core/audio_singleton.dart'; // Вметни го синглтонот
+import 'features/audio/core/audio_singleton.dart';
 
 void main() async {
-  // 1. Обезбеди дека Flutter е подготвен за комуникација со Native делот
-  WidgetsFlutterBinding.ensureInitialized();
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
+  final startupTime = DateTime.now();
 
-  // 2. Иницијализирај го аудио системот (AudioService, AudioSession)
   await AudioSingleton.init();
 
-  // 3. Стартувај ја апликацијата
   runApp(const App());
+
+  final elapsed = DateTime.now().difference(startupTime);
+  const minimumSplashDuration = Duration(milliseconds: 700);
+  final remaining = minimumSplashDuration - elapsed;
+
+  if (remaining > Duration.zero) {
+    await Future<void>.delayed(remaining);
+  }
+
+  FlutterNativeSplash.remove();
 }

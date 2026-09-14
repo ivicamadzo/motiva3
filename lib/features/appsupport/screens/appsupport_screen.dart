@@ -7,11 +7,16 @@ class AppsupportScreen extends StatelessWidget {
   const AppsupportScreen({super.key});
 
   static final Uri _supportUrl = Uri.parse('https://buymeacoffee.com/podrska');
+  static final Uri _privacyPolicyUrl = Uri.parse(
+    'https://ivicamadzo.github.io/motiva3/privacy_policy.html',
+  );
 
   Future<void> _openSupportPage() async {
-    if (await canLaunchUrl(_supportUrl)) {
-      await launchUrl(_supportUrl, mode: LaunchMode.externalApplication);
-    }
+    await launchUrl(_supportUrl, mode: LaunchMode.externalApplication);
+  }
+
+  Future<void> _openPrivacyPolicy() async {
+    await launchUrl(_privacyPolicyUrl, mode: LaunchMode.externalApplication);
   }
 
   @override
@@ -44,6 +49,33 @@ class AppsupportScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: MotivaTypography.body.copyWith(
                   color: AppColors.textSecondary,
+                ),
+              ),
+
+              const SizedBox(height: AppSpacing.xl),
+
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  child: Column(
+                    children: [
+                      const Icon(Icons.info_outline_rounded, size: 32),
+                      const SizedBox(height: AppSpacing.md),
+                      Text(
+                        'Важно известување',
+                        textAlign: TextAlign.center,
+                        style: MotivaTypography.h3,
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        'Motiva е едукативна и wellness апликација. Содржината не е медицински совет, дијагноза или замена за професионална медицинска или психолошка помош. Ако си во итна опасност или имаш сериозна криза, контактирај локална итна служба или квалификуван здравствен професионалец.',
+                        textAlign: TextAlign.center,
+                        style: MotivaTypography.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
@@ -98,6 +130,14 @@ class AppsupportScreen extends StatelessWidget {
                 style: MotivaTypography.caption.copyWith(
                   color: AppColors.textMuted,
                 ),
+              ),
+
+              const SizedBox(height: AppSpacing.md),
+
+              TextButton.icon(
+                onPressed: _openPrivacyPolicy,
+                icon: const Icon(Icons.privacy_tip_outlined),
+                label: const Text('Политика за приватност'),
               ),
             ],
           ),

@@ -1,7 +1,7 @@
 name: motiva3
-description: "A new Flutter project."
+description: "Motiva – апликација за релаксација, дишење и справување со анксиозност."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.12.0
@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+  flutter_native_splash: ^2.4.6
   just_audio: ^0.9.40
   audio_service: ^0.18.12
   audio_session: ^0.1.18
@@ -21,6 +22,24 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/branding/motiva_app_icon_512.png
+  adaptive_icon_foreground: assets/branding/motiva_adaptive_foreground.png
+  adaptive_icon_background: '#0F0B1A'
+  min_sdk_android: 21
+
+flutter_native_splash:
+  color: '#0F0B1A'
+  image: assets/branding/motiva_splash_logo.png
+  android: true
+  ios: true
+  android_12:
+    color: '#0F0B1A'
+    image: assets/branding/motiva_splash_logo.png
 
 flutter:
   uses-material-design: true
@@ -29,3 +48,4 @@ flutter:
     - assets/audio/
     - assets/audio/breathingsounds/
     - assets/images/
+    - assets/branding/
