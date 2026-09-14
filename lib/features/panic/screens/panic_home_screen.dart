@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:motiva3/features/breathing/screens/breathing_home_screen.dart';
 import 'package:motiva3/features/panic/screens/panic_list_screen.dart';
-import 'package:motiva3/features/relaxation/screens/relaxation_home_screen.dart';
+import 'package:motiva3/features/pmr/screens/pmr_home_screen.dart';
 
 class PanicHomeScreen extends StatelessWidget {
   const PanicHomeScreen({super.key});
@@ -10,7 +10,7 @@ class PanicHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Panic Relief'), centerTitle: true),
+      appBar: AppBar(title: const Text('Релаксација'), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -56,7 +56,7 @@ class PanicHomeScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const RelaxationHomeScreen()),
+                MaterialPageRoute(builder: (_) => const PmrHomeScreen()),
               );
             },
           ),

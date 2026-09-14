@@ -7,8 +7,8 @@ import 'package:motiva3/features/audio/screens/audio_screen.dart';
 
 import 'pmr_screen.dart';
 
-class RelaxationHomeScreen extends StatelessWidget {
-  const RelaxationHomeScreen({super.key});
+class PmrHomeScreen extends StatelessWidget {
+  const PmrHomeScreen({super.key});
 
   void _startGuidedRelaxation(BuildContext context) {
     final item = pmrPlaylist[0];
@@ -28,10 +28,7 @@ class RelaxationHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Мускулна релаксација'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('PMR релаксација'), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

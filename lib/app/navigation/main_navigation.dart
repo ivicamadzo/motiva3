@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../features/home/screens/home_screen.dart';
-import '../../features/relaxation/screens/relaxation_home_screen.dart';
+import '../../features/panic/screens/panic_home_screen.dart';
 import '../../features/appsupport/screens/appsupport_screen.dart';
 import '../../theme/theme_exports.dart';
 
@@ -17,7 +17,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   static const List<Widget> _screens = [
     HomeScreen(),
-    RelaxationHomeScreen(),
+    PanicHomeScreen(),
     AppsupportScreen(),
   ];
 
