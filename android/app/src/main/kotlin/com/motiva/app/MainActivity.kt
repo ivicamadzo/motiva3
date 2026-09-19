@@ -1,4 +1,4 @@
-package com.example.motiva3
+package com.motiva.app
 
 import com.ryanheise.audioservice.AudioServiceActivity
 

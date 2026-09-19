@@ -18,30 +18,14 @@ class AudioEngine {
 
   Future<Duration?> loadAsset(AudioItem item) async {
     try {
-      final start = DateTime.now();
-
-      print('🔵 LOAD START: ${item.title}');
-      print('🔵 ASSET: ${item.assetPath}');
-
       await _backgroundHandler.updateMediaItem(
         MediaItem(id: item.assetPath, title: item.title, artist: 'Motiva'),
       );
 
-      print(
-        '🟡 MEDIA ITEM DONE: '
-        '${DateTime.now().difference(start).inMilliseconds} ms',
-      );
-
       final result = await _player.setAsset(item.assetPath);
-
-      print(
-        '🟢 SET ASSET DONE: '
-        '${DateTime.now().difference(start).inMilliseconds} ms',
-      );
 
       return result;
     } catch (e) {
-      print("Грешка при вчитување на аудио: $e");
       return null;
     }
   }

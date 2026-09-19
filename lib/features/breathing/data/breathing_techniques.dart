@@ -1,15 +1,3 @@
-// =======================================
-// Future breathing techniques
-// =======================================
-//
-// TODO: 6-2-8 Breathing
-// TODO: Triangle Breathing
-// TODO: Coherent Breathing (5-5)
-// TODO: Pursed Lip Breathing
-// TODO: Alternate Nostril Breathing
-// TODO: Physiological Sigh
-//
-
 import '../models/breathing_technique.dart';
 
 const boxBreathing = BreathingTechnique(
