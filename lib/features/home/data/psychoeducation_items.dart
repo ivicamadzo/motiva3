@@ -35,7 +35,7 @@ final psychoeducationCards = [
 
   PsychoeducationNavItem(
     icon: Icons.loop,
-    title: "Overthinking",
+    title: "Претерано размислување",
     screenBuilder: () => OverthinkingScreen(),
   ),
 

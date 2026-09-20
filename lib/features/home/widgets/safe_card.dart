@@ -42,7 +42,7 @@ class SafeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Безбедно е да забавиш.',
+                  'Дозволи си момент за релаксација.',
                   style: MotivaTypography.h3.copyWith(
                     color: AppColors.textPrimary,
                   ),
@@ -51,7 +51,7 @@ class SafeCard extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xs),
 
                 Text(
-                  'Земи здив. Овој момент ќе помине.',
+                  'Дај му време на телото да се смири.',
                   style: MotivaTypography.bodySmall.copyWith(
                     color: AppColors.textSecondary,
                   ),

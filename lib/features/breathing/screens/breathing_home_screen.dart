@@ -15,7 +15,7 @@ class BreathingHomeScreen extends StatelessWidget {
       body: ListView.separated(
         padding: const EdgeInsets.all(AppSpacing.md),
         itemCount: breathingTechniques.length,
-        separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.sm),
+        separatorBuilder: (_, index) => const SizedBox(height: AppSpacing.sm),
         itemBuilder: (context, index) {
           final technique = breathingTechniques[index];
 

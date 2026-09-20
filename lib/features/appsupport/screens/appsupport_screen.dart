@@ -19,6 +19,11 @@ class AppsupportScreen extends StatelessWidget {
     await launchUrl(_privacyPolicyUrl, mode: LaunchMode.externalApplication);
   }
 
+  Future<void> _callNumber(String number) async {
+    final uri = Uri(scheme: 'tel', path: number);
+    await launchUrl(uri);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,6 +119,59 @@ class AppsupportScreen extends StatelessWidget {
                           onPressed: _openSupportPage,
                           icon: const Icon(Icons.favorite),
                           label: const Text('Поддржи ја Motiva'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: AppSpacing.xl),
+
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  child: Column(
+                    children: [
+                      const Icon(Icons.emergency_outlined, size: 42),
+                      const SizedBox(height: AppSpacing.md),
+                      Text(
+                        'Помош во криза',
+                        textAlign: TextAlign.center,
+                        style: MotivaTypography.h3,
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        'Оваа апликација не обезбедува кризна интервенција. Ако си во непосредна опасност, јави се на локалната итна служба или оди во најблиската итна медицинска установа.',
+                        textAlign: TextAlign.center,
+                        style: MotivaTypography.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton.icon(
+                          onPressed: () => _callNumber('112'),
+                          icon: const Icon(Icons.phone_outlined),
+                          label: const Text('Итни случаи: 112'),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () => _callNumber('194'),
+                          icon: const Icon(Icons.phone_outlined),
+                          label: const Text('Итна медицинска помош: 194'),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      Text(
+                        'Ако не можеш да се јавиш, побарај доверлива личност да остане со тебе и контактирај квалификуван здравствен професионалец.',
+                        textAlign: TextAlign.center,
+                        style: MotivaTypography.caption.copyWith(
+                          color: AppColors.textMuted,
                         ),
                       ),
                     ],

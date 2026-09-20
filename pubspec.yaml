@@ -1,5 +1,5 @@
 name: motiva3
-description: "Motiva – апликација за релаксација, дишење и справување со анксиозност."
+description: "Motiva – апликација за релаксација, дишење и општа благосостојба."
 publish_to: 'none'
 version: 1.0.0+2
 
@@ -30,7 +30,8 @@ flutter_launcher_icons:
   image_path: assets/branding/motiva_app_icon_512.png
   adaptive_icon_foreground: assets/branding/motiva_adaptive_foreground.png
   adaptive_icon_background: '#0F0B1A'
-  min_sdk_android: 21
+  min_sdk_android: 24
+  remove_alpha_ios: true
 
 flutter_native_splash:
   color: '#0F0B1A'

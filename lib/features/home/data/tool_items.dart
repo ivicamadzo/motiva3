@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../breathing/screens/breathing_home_screen.dart';
 import 'package:motiva3/features/meditation/screens/meditation_list_screen.dart';
 import 'package:motiva3/features/panic/screens/panic_home_screen.dart';
+import 'package:motiva3/features/pmr/screens/pmr_home_screen.dart';
 
 class ToolNavItem {
   final IconData icon;
@@ -32,5 +33,10 @@ final toolCards = [
     icon: Icons.self_improvement,
     title: "Медитација",
     screenBuilder: () => const MeditationListScreen(),
+  ),
+  ToolNavItem(
+    icon: Icons.spa_outlined,
+    title: "Мускулна релаксација",
+    screenBuilder: () => const PmrHomeScreen(),
   ),
 ];
