@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../home_exports.dart';
 import '../../../theme/theme_exports.dart';
+import '../home_exports.dart';
+import 'ai_chat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,6 +39,27 @@ class _HomeScreenState extends State<HomeScreen> {
               // GREETING
               // ─────────────────────────────────
               const GreetingCard(),
+
+              const SizedBox(height: AppSpacing.xl),
+
+              // ─────────────────────────────────
+              // AI BUBBLE
+              // ─────────────────────────────────
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.smart_toy_outlined),
+                  title: const Text('Motiva AI'),
+                  subtitle: const Text(
+                    'Прашувај што те мачи, и добиј краток совет.',
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const AiChatScreen()),
+                    );
+                  },
+                ),
+              ),
 
               const SizedBox(height: AppSpacing.xl),
 

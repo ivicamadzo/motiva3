@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/firebase/firebase_support.dart';
 import '../../../theme/theme_exports.dart';
 
 class AppsupportScreen extends StatelessWidget {
@@ -22,6 +26,58 @@ class AppsupportScreen extends StatelessWidget {
   Future<void> _callNumber(String number) async {
     final uri = Uri(scheme: 'tel', path: number);
     await launchUrl(uri);
+  }
+
+  Future<void> _signOut() async {
+    try {
+      if (FirebaseSupport.isEnabled) {
+        await FirebaseSupport.auth.signOut();
+      }
+    } catch (_) {}
+
+    try {
+      await GoogleSignIn().signOut();
+    } catch (_) {}
+
+    try {
+      await FacebookAuth.instance.logOut();
+    } catch (_) {}
+  }
+
+  Future<void> _deleteAccount(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Избриши account?'),
+        content: const Text(
+          'Ова ќе го избрише Firebase account-от. Локалниот дневник се чува одделно на уредот.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Откажи'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Избриши'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    try {
+      await FirebaseSupport.auth.currentUser?.delete();
+    } on FirebaseAuthException catch (error) {
+      if (!context.mounted) return;
+      final message = error.code == 'requires-recent-login'
+          ? 'Одјави се и најави се повторно пред бришење на account-от.'
+          : 'Account-от не може да се избрише. Обиди се повторно.';
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+    }
   }
 
   @override
@@ -197,6 +253,20 @@ class AppsupportScreen extends StatelessWidget {
                 icon: const Icon(Icons.privacy_tip_outlined),
                 label: const Text('Политика за приватност'),
               ),
+
+              if (FirebaseSupport.isEnabled)
+                TextButton.icon(
+                  onPressed: _signOut,
+                  icon: const Icon(Icons.logout),
+                  label: const Text('Одјави се'),
+                ),
+
+              if (FirebaseSupport.isEnabled)
+                TextButton.icon(
+                  onPressed: () => _deleteAccount(context),
+                  icon: const Icon(Icons.delete_outline),
+                  label: const Text('Избриши account'),
+                ),
             ],
           ),
         ),

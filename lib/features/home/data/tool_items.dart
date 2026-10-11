@@ -4,6 +4,7 @@ import '../../breathing/screens/breathing_home_screen.dart';
 import 'package:motiva3/features/meditation/screens/meditation_list_screen.dart';
 import 'package:motiva3/features/panic/screens/panic_home_screen.dart';
 import 'package:motiva3/features/pmr/screens/pmr_home_screen.dart';
+import 'package:motiva3/features/journal/screens/journal_screen.dart';
 
 class ToolNavItem {
   final IconData icon;
@@ -18,6 +19,11 @@ class ToolNavItem {
 }
 
 final toolCards = [
+  ToolNavItem(
+    icon: Icons.edit_note_outlined,
+    title: "Дневник",
+    screenBuilder: () => const JournalScreen(),
+  ),
   ToolNavItem(
     icon: Icons.air,
     title: "Дишење",

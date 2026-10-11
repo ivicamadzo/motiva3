@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "702535607203",
+    "project_id": "motiva-d5222",
+    "storage_bucket": "motiva-d5222.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702535607203:android:83fb029837575ee45df016",
+        "android_client_info": {
+          "package_name": "com.motiva.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "702535607203-163kj4pt4l2c42fhd2l3oput4cqium71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.motiva.app",
+            "certificate_hash": "0b2f2f2fe7963affa4e95e4c18a2b65d0b73c9ca"
+          }
+        },
+        {
+          "client_id": "702535607203-qt1tjccjag19psdtddpvadbbaelqnlrt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.motiva.app",
+            "certificate_hash": "3754669fac059844d86bfa5f46d20cb1604ce384"
+          }
+        },
+        {
+          "client_id": "702535607203-pq11np3e0pgi498hlosa39g5ftr880ej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOP02ADSa0qhLp6B6AYph__ab43TsIzV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "702535607203-pq11np3e0pgi498hlosa39g5ftr880ej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

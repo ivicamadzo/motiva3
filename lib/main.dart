@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 import 'app/app.dart';
+import 'core/firebase/firebase_support.dart';
 import 'features/audio/core/audio_singleton.dart';
 
 void main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
   final startupTime = DateTime.now();
+
+  if (FirebaseSupport.isEnabled) {
+    await Firebase.initializeApp();
+
+    await FirebaseAppCheck.instance.activate(
+      providerAndroid: const AndroidDebugProvider(),
+    );
+
+    await FirebaseSupport.analytics.setAnalyticsCollectionEnabled(true);
+  }
 
   await AudioSingleton.init();
 
