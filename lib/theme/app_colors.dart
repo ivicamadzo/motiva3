@@ -7,39 +7,39 @@ class AppColors {
   // BRAND
   // ─────────────────────────────────────────────
 
-  static const Color primary = Color(0xFF8175E5);
-  static const Color primaryLight = Color(0xFFA69CEF);
-  static const Color primarySoft = Color(0xFF6259A8);
+  static const Color primary = Color(0xFF159FA3);
+  static const Color primaryLight = Color(0xFF74D5CE);
+  static const Color primarySoft = Color(0xFF176E75);
 
   // ─────────────────────────────────────────────
   // BACKGROUNDS
   // ─────────────────────────────────────────────
 
-  static const Color background = Color(0xFF12101F);
-  static const Color backgroundElevated = Color(0xFF18152A);
+  static const Color background = Color(0xFF0D171B);
+  static const Color backgroundElevated = Color(0xFF111F24);
 
   // ─────────────────────────────────────────────
   // SURFACES / CARDS
   // ─────────────────────────────────────────────
 
-  static const Color surface = Color(0xFF1D1A31);
-  static const Color surfaceElevated = Color(0xFF24203C);
-  static const Color surfaceSoft = Color(0xFF292544);
+  static const Color surface = Color(0xFF17272C);
+  static const Color surfaceElevated = Color(0xFF1C3036);
+  static const Color surfaceSoft = Color(0xFF223B41);
 
   // ─────────────────────────────────────────────
   // PANIC MODE
   // ─────────────────────────────────────────────
 
-  static const Color panicBackground = Color(0xFF101522);
+  static const Color panicBackground = Color(0xFF10191D);
 
   // ─────────────────────────────────────────────
   // TEXT
   // ─────────────────────────────────────────────
 
-  static const Color textPrimary = Color(0xFFF7F5FC);
-  static const Color textSecondary = Color(0xFFC9C5D8);
-  static const Color textMuted = Color(0xFF918CA5);
-  static const Color textDisabled = Color(0xFF666175);
+  static const Color textPrimary = Color(0xFFF2F8F7);
+  static const Color textSecondary = Color(0xFFBED0D0);
+  static const Color textMuted = Color(0xFF8BA5A7);
+  static const Color textDisabled = Color(0xFF62777A);
 
   // ─────────────────────────────────────────────
   // SEMANTIC COLORS
@@ -57,8 +57,8 @@ class AppColors {
   // BORDERS
   // ─────────────────────────────────────────────
 
-  static const Color border = Color(0xFF302B49);
-  static const Color borderLight = Color(0xFF3B3557);
+  static const Color border = Color(0xFF294147);
+  static const Color borderLight = Color(0xFF37565C);
 
   // ─────────────────────────────────────────────
   // OVERLAYS / SHADOWS

@@ -35,7 +35,7 @@ class PanicListScreen extends StatelessWidget {
                 ),
               ),
               title: Text(item.title),
-              subtitle: const Text('Panic Relief аудио'),
+              subtitle: const Text('Паника интродукцијаС'),
               trailing: const Icon(Icons.play_circle_fill),
               onTap: () {
                 final currentTrack =

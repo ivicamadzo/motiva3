@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/ai/motiva_ai_service.dart';
 import '../../../core/storage/local_storage.dart';
 import '../../../theme/theme_exports.dart';
 import '../data/journal_entry.dart';
@@ -26,8 +25,6 @@ class _JournalScreenState extends State<JournalScreen> {
   late final TextEditingController _noteController;
   bool _isLoading = true;
   bool _isSaving = false;
-  bool _isGeneratingInsight = false;
-  String? _aiInsight;
 
   @override
   void initState() {
@@ -92,29 +89,6 @@ class _JournalScreenState extends State<JournalScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Записот е зачуван на уредот.')),
     );
-  }
-
-  Future<void> _generateInsight() async {
-    setState(() {
-      _isGeneratingInsight = true;
-      _aiInsight = null;
-    });
-
-    try {
-      final insight = await MotivaAIService.instance.generateJournalInsight(
-        JournalEntry(
-          date: _selectedDate,
-          mood: _entry.mood,
-          activities: _entry.activities,
-          note: _noteController.text.trim(),
-        ),
-      );
-
-      if (!mounted) return;
-      setState(() => _aiInsight = insight);
-    } finally {
-      if (mounted) setState(() => _isGeneratingInsight = false);
-    }
   }
 
   void _setMood(int mood) {
@@ -226,63 +200,6 @@ class _JournalScreenState extends State<JournalScreen> {
                       icon: const Icon(Icons.save_outlined),
                       label: Text(
                         _isSaving ? 'Се зачувува...' : 'Зачувај запис',
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xl),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppSpacing.md),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.smart_toy_outlined),
-                                const SizedBox(width: AppSpacing.sm),
-                                const Expanded(child: Text('Motiva AI')),
-                                if (_aiInsight != null)
-                                  const Icon(
-                                    Icons.check_circle_outline,
-                                    color: Colors.green,
-                                  ),
-                              ],
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            Text(
-                              'Поддршка и идеи за следниот чекор',
-                              style: MotivaTypography.caption.copyWith(
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            FilledButton.icon(
-                              onPressed: _isGeneratingInsight
-                                  ? null
-                                  : _generateInsight,
-                              icon: const Icon(Icons.auto_awesome_outlined),
-                              label: Text(
-                                _isGeneratingInsight
-                                    ? 'Се генерира...'
-                                    : 'Генерирај совет',
-                              ),
-                            ),
-                            if (_aiInsight != null) ...[
-                              const SizedBox(height: AppSpacing.md),
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(AppSpacing.md),
-                                decoration: BoxDecoration(
-                                  color: AppColors.surface,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text(
-                                  _aiInsight!,
-                                  style: MotivaTypography.body,
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
                       ),
                     ),
                   ],

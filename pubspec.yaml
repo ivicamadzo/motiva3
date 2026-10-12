@@ -38,17 +38,17 @@ flutter_launcher_icons:
   ios: true
   image_path: assets/branding/motiva_app_icon_512.png
   adaptive_icon_foreground: assets/branding/motiva_adaptive_foreground.png
-  adaptive_icon_background: '#0F0B1A'
+  adaptive_icon_background: '#0D171B'
   min_sdk_android: 24
   remove_alpha_ios: true
 
 flutter_native_splash:
-  color: '#0F0B1A'
+  color: '#0D171B'
   image: assets/branding/motiva_splash_logo.png
   android: true
   ios: true
   android_12:
-    color: '#0F0B1A'
+    color: '#0D171B'
     image: assets/branding/motiva_splash_logo.png
 
 flutter:

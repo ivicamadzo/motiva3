@@ -22,14 +22,14 @@ class AppGradients {
   static const LinearGradient calm = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF6F68C9), Color(0xFF6E86C9)],
+    colors: [Color(0xFF176E75), Color(0xFF27A6A0)],
   );
 
   // Wellness / grounding
   static const LinearGradient wellness = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF6F8FC9), Color(0xFF65B9AE)],
+    colors: [Color(0xFF165D6B), Color(0xFF48B7A7)],
   );
 
   // Very subtle highlight used on cards

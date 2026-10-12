@@ -2,7 +2,6 @@ import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter/foundation.dart';
 
 import '../firebase/chat_history_repository.dart';
-import '../../features/journal/data/journal_entry.dart';
 
 class MotivaAIService {
   MotivaAIService._();
@@ -15,37 +14,6 @@ class MotivaAIService {
   // ============================================================
 
   ChatSession? _wellnessChat;
-
-  // ============================================================
-  // JOURNAL AI
-  // Used only for insights based on the user's journal entry.
-  // ============================================================
-
-  Future<String> generateJournalInsight(JournalEntry entry) async {
-    final prompt = _buildPrompt(entry);
-
-    try {
-      final model = FirebaseAI.googleAI().generativeModel(
-        model: 'gemini-3.6-flash',
-      );
-
-      final response = await model.generateContent([Content.text(prompt)]);
-
-      final text = response.text?.trim();
-
-      if (text != null && text.isNotEmpty) {
-        debugPrint('Motiva AI journal response: $text');
-        return text;
-      }
-
-      debugPrint('Motiva AI journal returned an empty response.');
-    } catch (error, stackTrace) {
-      debugPrint('MotivaAIService journal error: $error');
-      debugPrintStack(stackTrace: stackTrace);
-    }
-
-    return _fallbackInsight(entry);
-  }
 
   // ============================================================
   // WELLNESS CHAT AI
@@ -100,55 +68,6 @@ class MotivaAIService {
         model: 'gemini-3.6-flash',
         systemInstruction: Content.system(_wellnessSystemInstruction()),
       );
-
-  // ============================================================
-  // JOURNAL PROMPT
-  // ============================================================
-
-  String _buildPrompt(JournalEntry entry) {
-    final selectedActivities = entry.activities.entries
-        .where((item) => item.value)
-        .map((item) => item.key)
-        .join(', ');
-
-    return '''
-You are Motiva AI, a gentle wellness assistant inside the Motiva relaxation app.
-
-The following information comes from the user's journal.
-
-JOURNAL CONTEXT:
-- Date: ${entry.date.toIso8601String()}
-- Mood: ${entry.mood ?? 'not selected'}
-- Activities: ${selectedActivities.isEmpty ? 'none selected' : selectedActivities}
-- Note: ${entry.note.isEmpty ? 'no note provided' : entry.note}
-
-LANGUAGE:
-- Write ONLY in natural standard Macedonian.
-- Use Macedonian Cyrillic.
-- Use natural conversational Macedonian as spoken in North Macedonia.
-- Do not use Serbian, Bulgarian, Croatian or other language variants.
-- Do not unnecessarily mix Macedonian with English or other languages.
-
-TASK:
-Create a short, useful insight based specifically on this journal entry.
-
-Your response should:
-- Notice the information the user actually entered.
-- Connect the response to their mood, activities or note when relevant.
-- Give practical and realistic encouragement.
-- Avoid generic advice when the journal contains specific information.
-- Sound like a thoughtful human coach, not a scripted chatbot.
-
-Do not:
-- Diagnose medical conditions.
-- Present yourself as a doctor.
-- Claim to provide medical treatment.
-- Promise recovery or a specific health outcome.
-- Use exaggerated or overly emotional language.
-
-Keep the response concise: approximately 2-4 sentences.
-''';
-  }
 
   // ============================================================
   // WELLNESS CHAT SYSTEM INSTRUCTION
@@ -293,32 +212,6 @@ Do not force an exercise into every conversation.
 Think about the meaning of the user's message and provide the most natural,
 useful and appropriate response.
 ''';
-  }
-
-  // ============================================================
-  // JOURNAL FALLBACK
-  // Used only when Gemini is unavailable.
-  // ============================================================
-
-  String _fallbackInsight(JournalEntry entry) {
-    final moodLabel = switch (entry.mood) {
-      1 => 'ти беше тешко',
-      2 => 'си бил умерено расположен',
-      3 => 'си бил во добро расположение',
-      4 => 'си бил во многу добро расположение',
-      _ => 'сакаш да се чувствуваш подобро',
-    };
-
-    final activities = entry.activities.entries
-        .where((item) => item.value)
-        .map((item) => item.key)
-        .join(', ');
-
-    final focus = activities.isEmpty
-        ? 'неколку нежни минути за себе'
-        : activities;
-
-    return 'Денес $moodLabel. Обиди се да го задржиш ритамот со $focus и да си дадеш мал простор за одмор.';
   }
 
   // ============================================================
